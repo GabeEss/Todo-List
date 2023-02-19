@@ -1,12 +1,8 @@
-import Todo from "./todo-object";
-import displayProject from './display-project.js';
-
 // This is a form that is displayed to gather information to create a new Todo object.
-// The project in the parameter is the current Project object that is attempting to create a new Todo object.
 
-export default function newToDo(project) {
-    const formElement = document.createElement('form');
-    formElement.setAttribute('id', 'new-todo'); 
+export function newToDoForm() {
+    const form = document.createElement('form');
+    form.setAttribute('id', 'new-todo'); 
 
     const formTitle = document.createElement('textarea');
     formTitle.setAttribute('maxlength', '50'); // character limit
@@ -64,54 +60,49 @@ export default function newToDo(project) {
     duedateLabel.textContent = "Due Date: ";
 
     const submitButton = document.createElement('button');
-    submitButton.setAttribute('type', 'submit');
     submitButton.textContent = "Create ToDo";
-    submitButton.addEventListener('submit', (event) => {
-        event.preventDefault(); // prevent the form from submitting
-      
-        const formElement = event.target.form; // get the form element
-        const formData = new FormData(formElement); // create a FormData object with the form data
-        const title = formData.get('title');
-        const desc = formData.get('description');
-        const priority = formData.get('priority');
-        const notes = formData.get('notes');
-        const dueDate = formData.get('dueDate');
 
-        const newToDoObject = new Todo(title, desc, priority, notes, dueDate);
-        project.addToDo(newToDoObject);
-      });
-
-    const cancelButton = document.createElement('button');
-    cancelButton.setAttribute('type', 'button');
-    cancelButton.textContent = "Cancel";
-    cancelButton.addEventListener('submit', (event) => { 
-        event.preventDefault(); // prevent the form from submitting
-    });
+    // const cancelButton = document.createElement('button');
+    // cancelButton.setAttribute('type', 'button');
+    // cancelButton.textContent = "Cancel";
+    // cancelButton.addEventListener('submit', (event) => { 
+    //     event.preventDefault(); // prevent the form from submitting
+    // });
 
     // append the elements to the form
-    formElement.appendChild(titleLabel);
-    formElement.appendChild(formTitle);
-    formElement.appendChild(document.createElement('br'));
-    formElement.appendChild(descLabel);
-    formElement.appendChild(formDesc);
-    formElement.appendChild(document.createElement('br'));
-    formElement.appendChild(priorityLabel);
-    formElement.appendChild(priorityLevel1);
-    formElement.appendChild(priorityLabel1);
-    formElement.appendChild(priorityLevel2);
-    formElement.appendChild(priorityLabel2);
-    formElement.appendChild(priorityLevel3);
-    formElement.appendChild(priorityLabel3);
-    formElement.appendChild(document.createElement('br'));
-    formElement.appendChild(notesLabel);
-    formElement.appendChild(formNotes);
-    formElement.appendChild(document.createElement('br'));
-    formElement.appendChild(duedateLabel);
-    formElement.appendChild(formDueDate);
-    formElement.appendChild(document.createElement('br'));
-    formElement.appendChild(submitButton);
-    formElement.appendChild(cancelButton);
+    form.appendChild(titleLabel);
+    form.appendChild(formTitle);
+    form.appendChild(document.createElement('br'));
+    form.appendChild(descLabel);
+    form.appendChild(formDesc);
+    form.appendChild(document.createElement('br'));
+    form.appendChild(priorityLabel);
+    form.appendChild(priorityLevel1);
+    form.appendChild(priorityLabel1);
+    form.appendChild(priorityLevel2);
+    form.appendChild(priorityLabel2);
+    form.appendChild(priorityLevel3);
+    form.appendChild(priorityLabel3);
+    form.appendChild(document.createElement('br'));
+    form.appendChild(notesLabel);
+    form.appendChild(formNotes);
+    form.appendChild(document.createElement('br'));
+    form.appendChild(duedateLabel);
+    form.appendChild(formDueDate);
+    form.appendChild(document.createElement('br'));
+    form.appendChild(submitButton);
+    // form.appendChild(cancelButton);
 
-    const mainContainer = document.getElementById('content');
-    mainContainer.appendChild(formElement);
+    return form;
+}
+
+export function handleTodoFormSubmit(formData)
+{
+    const title = formData.get('title');
+    const desc = formData.get('description');
+    const priority = formData.get('priority');
+    const notes = formData.get('notes');
+    const dueDate = formData.get('dueDate');
+
+    return { title, desc, priority, notes, dueDate };
 }

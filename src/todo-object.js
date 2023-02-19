@@ -29,8 +29,8 @@ export default class Todo {
       this.priority = newPriority;
     }
   
-    addNotes(newNote) {
-      this.notes.push(newNote);
+    editNote(newNote) {
+      this.note = newNote;
     }
   }
   
