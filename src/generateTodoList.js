@@ -9,18 +9,25 @@ export default function generateToDo(project) {
             const toDo = project.todos[i];
             const toDoElement = document.createElement('div');
 
+            const toDoTitleContainer = document.createElement('div');
             const toDoTitleLabel = document.createElement('label');
-            toDoTitleLabel.textContent = "Todo " + i + ": ";
+            toDoTitleLabel.textContent = "Item #" + (i + 1) + ": ";
             const toDoTitle = document.createElement('input');
             toDoTitle.setAttribute('type', 'text');
             toDoTitle.value = project.todos[i].title;
+            toDoTitleContainer.appendChild(toDoTitleLabel);
+            toDoTitleContainer.appendChild(toDoTitle);
 
+            const toDoDescriptionContainer = document.createElement('div');
             const toDoDescriptionLabel = document.createElement('label');
             toDoDescriptionLabel.textContent = "Description: ";
             const toDoDescription = document.createElement('input');
             toDoDescription.setAttribute('type', 'text');
             toDoDescription.value = project.todos[i].description;
+            toDoDescriptionContainer.appendChild(toDoDescriptionLabel);
+            toDoDescriptionContainer.appendChild(toDoDescription);
 
+            const toDoPriorityContainer = document.createElement('div');
             const toDoPriorityLabel = document.createElement('label');
             toDoPriorityLabel.textContent = "Priority: ";
             const toDoPriorityLow = document.createElement('input');
@@ -42,18 +49,31 @@ export default function generateToDo(project) {
             const toDoPriorityHighLabel = document.createElement('label');
             toDoPriorityHighLabel.textContent = "High";
             const priorityValues = ['Low', 'Medium', 'High'];
+            toDoPriorityContainer.appendChild(toDoPriorityLabel);
+            toDoPriorityContainer.appendChild(toDoPriorityHigh);
+            toDoPriorityContainer.appendChild(toDoPriorityMedium);
+            toDoPriorityContainer.appendChild(toDoPriorityLow);
 
+            const toDoNotesContainer = document.createElement('div');
             const toDoNotesLabel = document.createElement('label');
             toDoNotesLabel.textContent = "Notes: ";
             const toDoNotes = document.createElement('input');
             toDoNotes.setAttribute('type', 'text');
             toDoNotes.value = project.todos[i].notes;
+            toDoNotesContainer.appendChild(toDoNotesLabel);
+            toDoNotesContainer.appendChild(toDoNotes);
 
+            const toDoDueDateContainer = document.createElement('div');
             const toDoDueDateLabel = document.createElement('label');
             toDoDueDateLabel.textContent = "Due date: ";
             const toDoDueDate = document.createElement('input');
             toDoDueDate.setAttribute('type', 'date');
             toDoDueDate.value = project.todos[i].dueDate;
+            toDoDueDateContainer.appendChild(toDoDueDateLabel);
+            toDoDueDateContainer.appendChild(toDoDueDate);
+
+            const toDoRemoveButton = document.createElement('button');
+            toDoRemoveButton.textContent = "Delete ToDo";
 
             toDoTitle.addEventListener('click', () => {
                 const input = document.createElement('input');
@@ -143,11 +163,17 @@ export default function generateToDo(project) {
                 });
             });
 
-            toDoElement.appendChild(toDoTitle);
-            toDoElement.appendChild(toDoDescription);
-            // toDoElement.appendChild(toDoPriority);
-            toDoElement.appendChild(toDoNotes);
-            toDoElement.appendChild(toDoDueDate);
+            toDoRemoveButton.addEventListener('click', () => {
+                project.todos.splice(i, 1);
+                displayProject(project);
+            });
+
+            toDoElement.appendChild(toDoTitleContainer);
+            toDoElement.appendChild(toDoDescriptionContainer);
+            toDoElement.appendChild(toDoPriorityContainer);
+            toDoElement.appendChild(toDoNotesContainer);
+            toDoElement.appendChild(toDoDueDateContainer);
+            toDoElement.appendChild(toDoRemoveButton);
 
             toDoList.appendChild(toDoElement);
         }

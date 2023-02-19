@@ -28,6 +28,7 @@ export default function displayPortfolio(portfolio) {
         newPort.removeChild(newProjButton); // remove buttons until submit event has concluded
         newPort.removeChild(editProjectButton);
         newPort.removeChild(removeProjectButton);
+        newPort.removeChild(completeProjectButton);
         form.addEventListener('submit', (event) => {
             event.preventDefault();
             const formData = new FormData(event.target);
@@ -38,9 +39,10 @@ export default function displayPortfolio(portfolio) {
             displayProject(project); // display the new project
             setIndex(portfolio.projects.length - 1); // don't sort the projects inside the object itself
             generateProjects(portfolio); // generate project list again
-            newPort.appendChild(newProjButton);
+            newPort.appendChild(newProjButton); // re-add buttons
             newPort.appendChild(editProjectButton);
             newPort.appendChild(removeProjectButton);
+            newPort.appendChild(completeProjectButton);
         });
         newPort.appendChild(form);
     });
@@ -53,6 +55,7 @@ export default function displayPortfolio(portfolio) {
         newPort.removeChild(newProjButton);
         newPort.removeChild(editProjectButton);
         newPort.removeChild(removeProjectButton);
+        newPort.removeChild(completeProjectButton);
         form.addEventListener('submit', (event) => {
             event.preventDefault();
             const formData = new FormData(event.target);
@@ -65,6 +68,7 @@ export default function displayPortfolio(portfolio) {
             newPort.appendChild(newProjButton); // re-add buttons
             newPort.appendChild(editProjectButton);
             newPort.appendChild(removeProjectButton);
+            newPort.appendChild(completeProjectButton);
             displayProject(portfolio.projects[currProjIndex]); // re-display the current project
         });
         newPort.appendChild(form);
@@ -79,20 +83,45 @@ export default function displayPortfolio(portfolio) {
             newPort.removeChild(newProjButton);
             newPort.removeChild(editProjectButton);
             newPort.removeChild(removeProjectButton);
+            newPort.removeChild(completeProjectButton);
             let currProjIndex = getCurrentIndex();
             portfolio.removeProject(currProjIndex);
             generateProjects(portfolio); // generate project list again
             newPort.appendChild(newProjButton); // re-add buttons
             newPort.appendChild(editProjectButton);
             newPort.appendChild(removeProjectButton);
+            newPort.appendChild(completeProjectButton);
             setIndex(0); // reset index value
             currProjIndex = getCurrentIndex();
             displayProject(portfolio.projects[currProjIndex]); // re-display the first project on the list
         }
+    });
+
+    const completeProjectButton = document.createElement('button');
+    completeProjectButton.id = "complete-project-button";
+    completeProjectButton.textContent = "Complete/Revert Project";
+    completeProjectButton.addEventListener('click', () => {
+            newPort.removeChild(newProjButton);
+            newPort.removeChild(editProjectButton);
+            newPort.removeChild(removeProjectButton);
+            newPort.removeChild(completeProjectButton);
+            let currProjIndex = getCurrentIndex();
+            if(portfolio.projects[currProjIndex].completed === true)
+                portfolio.projects[currProjIndex].completed = false;
+            else
+                portfolio.projects[currProjIndex].completed = true;
+
+            newPort.appendChild(newProjButton); // re-add buttons
+            newPort.appendChild(editProjectButton);
+            newPort.appendChild(removeProjectButton);
+            newPort.appendChild(completeProjectButton);
+
+            displayProject(portfolio.projects[currProjIndex]);
     });
     
     generateProjects(portfolio);
     newPort.appendChild(newProjButton);
     newPort.appendChild(editProjectButton);
     newPort.appendChild(removeProjectButton);
+    newPort.appendChild(completeProjectButton);
 }
