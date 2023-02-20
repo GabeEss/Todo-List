@@ -26,7 +26,7 @@ export function newToDoForm() {
     const priorityLevel1 = document.createElement('input');
     priorityLevel1.setAttribute('type', 'radio');
     priorityLevel1.setAttribute('name', 'priority');
-    priorityLevel1.setAttribute('value', '1');
+    priorityLevel1.setAttribute('value', '1 (low)');
     priorityLevel1.setAttribute('checked', true); // default selection
     const priorityLabel1 = document.createElement('label');
     priorityLabel1.textContent = "Low";
@@ -34,14 +34,14 @@ export function newToDoForm() {
     const priorityLevel2 = document.createElement('input');
     priorityLevel2.setAttribute('type', 'radio');
     priorityLevel2.setAttribute('name', 'priority');
-    priorityLevel2.setAttribute('value', '2');
+    priorityLevel2.setAttribute('value', '2 (medium)');
     const priorityLabel2 = document.createElement('label');
     priorityLabel2.textContent = "Medium";
 
     const priorityLevel3 = document.createElement('input');
     priorityLevel3.setAttribute('type', 'radio');
     priorityLevel3.setAttribute('name', 'priority');
-    priorityLevel3.setAttribute('value', '3');
+    priorityLevel3.setAttribute('value', '3 (high)');
     const priorityLabel3 = document.createElement('label');
     priorityLabel3.textContent = "High";
 

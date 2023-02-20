@@ -1,14 +1,15 @@
 import displayProject from "./display-project";
-import Todo from "./todo-object";
+
+// Generates the DOM elements and click events for each todo item within a project.
 
 export default function generateToDo(project) {
     const toDoList = document.getElementById('todo-container');
 
     if(Array.isArray(project.todos)) {
         for (let i = 0; i < project.todos.length; i++) {
-            const toDo = project.todos[i];
             const toDoElement = document.createElement('div');
 
+            // Todo Title Container
             const toDoTitleContainer = document.createElement('div');
             const toDoTitleLabel = document.createElement('label');
             toDoTitleLabel.textContent = "Item #" + (i + 1) + ": ";
@@ -18,6 +19,7 @@ export default function generateToDo(project) {
             toDoTitleContainer.appendChild(toDoTitleLabel);
             toDoTitleContainer.appendChild(toDoTitle);
 
+            // Todo Description Container
             const toDoDescriptionContainer = document.createElement('div');
             const toDoDescriptionLabel = document.createElement('label');
             toDoDescriptionLabel.textContent = "Description: ";
@@ -27,33 +29,17 @@ export default function generateToDo(project) {
             toDoDescriptionContainer.appendChild(toDoDescriptionLabel);
             toDoDescriptionContainer.appendChild(toDoDescription);
 
+            // Todo Priority Container
             const toDoPriorityContainer = document.createElement('div');
             const toDoPriorityLabel = document.createElement('label');
-            toDoPriorityLabel.textContent = "Priority: ";
-            const toDoPriorityLow = document.createElement('input');
-            toDoPriorityLow.setAttribute('type', 'radio');
-            toDoPriorityLow.setAttribute('name', 'priority' + i);
-            toDoPriorityLow.setAttribute('value', 'Low');
-            const toDoPriorityLowLabel = document.createElement('label');
-            toDoPriorityLowLabel.textContent = "Low";
-            const toDoPriorityMedium = document.createElement('input');
-            toDoPriorityMedium.setAttribute('type', 'radio');
-            toDoPriorityMedium.setAttribute('name', 'priority' + i);
-            toDoPriorityMedium.setAttribute('value', 'Medium');
-            const toDoPriorityMediumLabel = document.createElement('label');
-            toDoPriorityMediumLabel.textContent = "Medium";
-            const toDoPriorityHigh = document.createElement('input');
-            toDoPriorityHigh.setAttribute('type', 'radio');
-            toDoPriorityHigh.setAttribute('name', 'priority' + i);
-            toDoPriorityHigh.setAttribute('value', 'High');
-            const toDoPriorityHighLabel = document.createElement('label');
-            toDoPriorityHighLabel.textContent = "High";
-            const priorityValues = ['Low', 'Medium', 'High'];
-            toDoPriorityContainer.appendChild(toDoPriorityLabel);
-            toDoPriorityContainer.appendChild(toDoPriorityHigh);
-            toDoPriorityContainer.appendChild(toDoPriorityMedium);
-            toDoPriorityContainer.appendChild(toDoPriorityLow);
+            const toDoPriority = document.createElement('div');
 
+            toDoPriorityLabel.textContent = "Priority: ";
+            toDoPriority.textContent = project.todos[i].priority;
+            toDoPriorityContainer.appendChild(toDoPriorityLabel);
+            toDoPriorityContainer.appendChild(toDoPriority);
+
+            // Todo Notes Container
             const toDoNotesContainer = document.createElement('div');
             const toDoNotesLabel = document.createElement('label');
             toDoNotesLabel.textContent = "Notes: ";
@@ -63,6 +49,7 @@ export default function generateToDo(project) {
             toDoNotesContainer.appendChild(toDoNotesLabel);
             toDoNotesContainer.appendChild(toDoNotes);
 
+            // Todo Due Date Container
             const toDoDueDateContainer = document.createElement('div');
             const toDoDueDateLabel = document.createElement('label');
             toDoDueDateLabel.textContent = "Due date: ";
@@ -72,31 +59,73 @@ export default function generateToDo(project) {
             toDoDueDateContainer.appendChild(toDoDueDateLabel);
             toDoDueDateContainer.appendChild(toDoDueDate);
 
+            // Todo Remove Button
             const toDoRemoveButton = document.createElement('button');
             toDoRemoveButton.textContent = "Delete ToDo";
 
+            // Title Event
             toDoTitle.addEventListener('click', () => {
                 const input = document.createElement('input');
                 input.type = 'text';
                 input.value = toDoTitle.value;
 
-                toDoElement.replaceChild(input, toDoTitle);
+                toDoTitleContainer.replaceChild(input, toDoTitle);
             
                 input.addEventListener('blur', () => {
                     toDoTitle.value = input.value;
-                    project.toDos[i].editTitle(input.value);
+                    project.todos[i].editTitle(input.value);
                     displayProject(project);
                     toDoTitleLabel.textContent = "Todo " + i + ": ";
                 });
             });
 
+            // Priority Event
+            toDoPriority.addEventListener('click', () => {
+                const priorityOptions = ['1 (low)', '2 (medium)', '3 (high)', 'Ignore'];
+              
+                // Create radio buttons for each priority option
+                const radioButtons = document.createElement('div');
+                radioButtons.classList.add('priority-options');
+              
+                priorityOptions.forEach((option) => {
+                  const radioButton = document.createElement('input');
+                  radioButton.setAttribute('type', 'radio');
+                  radioButton.setAttribute('name', 'priority');
+                  radioButton.setAttribute('value', option);
+                  if (option === project.todos[i].priority) {
+                    radioButton.checked = true;
+                  }
+              
+                  const label = document.createElement('label');
+                  label.textContent = option;
+              
+                  const radioButtonContainer = document.createElement('div');
+                  radioButtonContainer.appendChild(radioButton);
+                  radioButtonContainer.appendChild(label);
+              
+                  radioButtons.appendChild(radioButtonContainer);
+                });
+              
+                // Replace the priority container with the radio buttons
+                toDoPriorityContainer.replaceChild(radioButtons, toDoPriority);
+              
+                // Update the priority value of the todo object when the user makes a selection
+                radioButtons.addEventListener('change', (event) => {
+                    const newPriority = event.target.value;
+                    if (newPriority !== 'Ignore') {
+                        project.todos[i].priority = newPriority;
+                    }
+                    displayProject(project);
+                });
+            });
 
+            // Description Event
             toDoDescription.addEventListener('click', () => {
                 const input = document.createElement('input');
                 input.type = 'text';
                 input.value = toDoDescription.textContent;
             
-                toDoElement.replaceChild(input, toDoDescription);
+                toDoDescriptionContainer.replaceChild(input, toDoDescription);
             
                 input.addEventListener('blur', () => {
                     toDoDescription.textContent = input.value;
@@ -105,47 +134,24 @@ export default function generateToDo(project) {
                 });
             });
 
+            // Notes Event
             toDoNotes.addEventListener('click', () => {
                 const input = document.createElement('input');
                 input.type = 'text';
                 input.value = toDoNotes.textContent;
             
-                toDoElement.replaceChild(input, toDoNotes);
+                toDoNotesContainer.replaceChild(input, toDoNotes);
             
                 input.addEventListener('blur', () => {
                     toDoTitle.textContent = input.value;
-                    project.todos[i].editNote(input.value);
+                    project.todos[i].notes = input.value;
                     displayProject(project);
                 });
             });
 
-    //             // Add click event listener to priority element
-    // toDoPriority.addEventListener('click', () => {
-    //     // Create a select element with priority options
-    //     const select = document.createElement('select');
-    //     const options = ['Low', 'Medium', 'High'];
-    //     for (let j = 0; j < options.length; j++) {
-    //         const option = document.createElement('option');
-    //         option.value = options[j];
-    //         option.text = options[j];
-    //         if (options[j] === project.todos[i].priority) {
-    //             option.selected = true;
-    //         }
-    //         select.appendChild(option);
-    //     }
+            
 
-    //         // Replace the priority element with the select element
-    //         toDoElement.replaceChild(select, toDoPriority);
-
-    //         // Add change event listener to select element
-    //         select.addEventListener('change', () => {
-    //             toDoPriority.textContent = select.value;
-    //             project.toDos[i].editPriority(select.value);
-    //             displayProject(project);
-    //         });
-    //     });
-
-            // Add click event listener to due date element
+            // Due Date Event
             toDoDueDate.addEventListener('click', () => {
                 // Create an input element with type "date"
                 const input = document.createElement('input');
@@ -153,7 +159,7 @@ export default function generateToDo(project) {
                 input.value = project.todos[i].dueDate;
 
                 // Replace the due date element with the input element
-                toDoElement.replaceChild(input, toDoDueDate);
+                toDoDueDateContainer.replaceChild(input, toDoDueDate);
 
                 // Add change event listener to input element
                 input.addEventListener('change', () => {
@@ -163,6 +169,7 @@ export default function generateToDo(project) {
                 });
             });
 
+            // Remove Button Event
             toDoRemoveButton.addEventListener('click', () => {
                 project.todos.splice(i, 1);
                 displayProject(project);

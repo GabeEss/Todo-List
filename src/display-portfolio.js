@@ -99,7 +99,7 @@ export default function displayPortfolio(portfolio) {
 
     const completeProjectButton = document.createElement('button');
     completeProjectButton.id = "complete-project-button";
-    completeProjectButton.textContent = "Complete/Revert Project";
+    completeProjectButton.textContent = "Change Completion Status";
     completeProjectButton.addEventListener('click', () => {
             newPort.removeChild(newProjButton);
             newPort.removeChild(editProjectButton);
