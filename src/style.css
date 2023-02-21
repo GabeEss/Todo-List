@@ -33,6 +33,13 @@ content {
     font-size: 16pt;
     padding: 10px;
     gap: 15px;
+    --button-color: rgb(138, 168, 197);
+}
+
+#portfolio>#project-list>li:hover {
+    /* Add hover effect to buttons with --button-color */
+    background-color: var(--button-color);
+    color: white;
 }
 
 #portfolio button {
@@ -40,6 +47,12 @@ content {
     font-size: 13pt;
     padding: 10px;
     color: var(--button-color);
+}
+
+/* Add hover effect to buttons with --button-color */
+#portfolio button:hover {
+    background-color: var(--button-color);
+    color: white;
 }
 
 #project {
@@ -50,6 +63,12 @@ content {
     all: unset;
     font-size: 13pt;
     color: var(--button-color);
+}
+
+/* Add hover effect to buttons with --button-color */
+#project button:hover {
+    background-color: var(--button-color);
+    color: white;
 }
 
 #project>#todo-container {
