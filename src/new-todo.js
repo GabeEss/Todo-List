@@ -77,13 +77,6 @@ export function newToDoForm() {
     const submitButton = document.createElement('button');
     submitButton.textContent = "Create ToDo";
 
-    // const cancelButton = document.createElement('button');
-    // cancelButton.setAttribute('type', 'button');
-    // cancelButton.textContent = "Cancel";
-    // cancelButton.addEventListener('submit', (event) => { 
-    //     event.preventDefault(); // prevent the form from submitting
-    // });
-
     // append the elements to the form
     form.appendChild(titleLabel);
     form.appendChild(formTitle);
@@ -103,7 +96,6 @@ export function newToDoForm() {
     form.appendChild(formDueDate);
     form.appendChild(document.createElement('br'));
     form.appendChild(submitButton);
-    // form.appendChild(cancelButton);
 
     return form;
 }

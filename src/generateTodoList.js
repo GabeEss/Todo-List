@@ -76,7 +76,7 @@ export default function generateToDo(project) {
             
                 input.addEventListener('blur', () => {
                     toDoTitle.value = input.value;
-                    project.todos[i].editTitle(input.value);
+                    project.todos[i].title = input.value;
                     displayProject(project);
                     toDoTitleLabel.textContent = "Todo " + i + ": ";
                 });
@@ -134,7 +134,7 @@ export default function generateToDo(project) {
               
                 textarea.addEventListener('blur', () => {
                   toDoDescription.value = textarea.value;
-                  project.todos[i].editDescription(textarea.value);
+                  project.todos[i].description = textarea.value;
                   displayProject(project);
                 });
               });

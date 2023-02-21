@@ -27,10 +27,12 @@ export default function displayPortfolio(portfolio) {
     newProjButton.textContent = "New Project";
     newProjButton.addEventListener('click', () => {
         const form = createForm();
-        buttonContainer.removeChild(newProjButton); // remove buttons until submit event has concluded
+        buttonContainer.removeChild(newProjButton);
         buttonContainer.removeChild(editProjectButton);
         buttonContainer.removeChild(removeProjectButton);
         buttonContainer.removeChild(completeProjectButton);
+        buttonContainer.removeChild(saveProjectButton);
+
         form.addEventListener('submit', (event) => {
             event.preventDefault();
             const formData = new FormData(event.target);
@@ -45,19 +47,26 @@ export default function displayPortfolio(portfolio) {
             buttonContainer.appendChild(editProjectButton);
             buttonContainer.appendChild(removeProjectButton);
             buttonContainer.appendChild(completeProjectButton);
+            buttonContainer.appendChild(saveProjectButton);
+
+            // This is for local storage!
+            const projectsJson = JSON.stringify(portfolio.projects);
+            localStorage.setItem("projects", projectsJson);
         });
         buttonContainer.appendChild(form);
     });
 
     const editProjectButton = document.createElement('button');
     editProjectButton.id = "edit-project-button";
-    editProjectButton.textContent = "Edit Project";
+    editProjectButton.textContent = "Edit Project Title/Description";
     editProjectButton.addEventListener('click', () => {
         const form = createForm();
         buttonContainer.removeChild(newProjButton);
         buttonContainer.removeChild(editProjectButton);
         buttonContainer.removeChild(removeProjectButton);
         buttonContainer.removeChild(completeProjectButton);
+        buttonContainer.removeChild(saveProjectButton);
+
         form.addEventListener('submit', (event) => {
             event.preventDefault();
             const formData = new FormData(event.target);
@@ -71,7 +80,12 @@ export default function displayPortfolio(portfolio) {
             buttonContainer.appendChild(editProjectButton);
             buttonContainer.appendChild(removeProjectButton);
             buttonContainer.appendChild(completeProjectButton);
+            buttonContainer.appendChild(saveProjectButton);
             displayProject(portfolio.projects[currProjIndex]); // re-display the current project
+
+            // This is for local storage!
+            const projectsJson = JSON.stringify(portfolio.projects);
+            localStorage.setItem("projects", projectsJson);
         });
         buttonContainer.appendChild(form);
     });
@@ -86,16 +100,24 @@ export default function displayPortfolio(portfolio) {
             buttonContainer.removeChild(editProjectButton);
             buttonContainer.removeChild(removeProjectButton);
             buttonContainer.removeChild(completeProjectButton);
+            buttonContainer.removeChild(saveProjectButton);
+
             let currProjIndex = getCurrentIndex();
             portfolio.removeProject(currProjIndex);
             generateProjects(portfolio); // generate project list again
+
             buttonContainer.appendChild(newProjButton); // re-add buttons
             buttonContainer.appendChild(editProjectButton);
             buttonContainer.appendChild(removeProjectButton);
             buttonContainer.appendChild(completeProjectButton);
+            buttonContainer.appendChild(saveProjectButton);
             setIndex(0); // reset index value
             currProjIndex = getCurrentIndex();
             displayProject(portfolio.projects[currProjIndex]); // re-display the first project on the list
+
+            // This is for local storage!
+            const projectsJson = JSON.stringify(portfolio.projects);
+            localStorage.setItem("projects", projectsJson);
         }
     });
 
@@ -107,6 +129,8 @@ export default function displayPortfolio(portfolio) {
             buttonContainer.removeChild(editProjectButton);
             buttonContainer.removeChild(removeProjectButton);
             buttonContainer.removeChild(completeProjectButton);
+            buttonContainer.removeChild(saveProjectButton);
+
             let currProjIndex = getCurrentIndex();
             if(portfolio.projects[currProjIndex].completed === true)
                 portfolio.projects[currProjIndex].completed = false;
@@ -117,9 +141,23 @@ export default function displayPortfolio(portfolio) {
             buttonContainer.appendChild(editProjectButton);
             buttonContainer.appendChild(removeProjectButton);
             buttonContainer.appendChild(completeProjectButton);
+            buttonContainer.appendChild(saveProjectButton);
 
             displayProject(portfolio.projects[currProjIndex]);
+
+            // This is for local storage!
+            const projectsJson = JSON.stringify(portfolio.projects);
+            localStorage.setItem("projects", projectsJson);
     });
+
+    const saveProjectButton = document.createElement('button');
+    saveProjectButton.id = "save-project-button";
+    saveProjectButton.textContent = "Save Your Projects/Todos"
+    saveProjectButton.addEventListener('click', () => {
+        // This is for local storage!
+        const projectsJson = JSON.stringify(portfolio.projects);
+        localStorage.setItem("projects", projectsJson);
+    })
     
     const buttonContainer = document.createElement('div');
     buttonContainer.setAttribute('id', 'portfolio-buttons');
@@ -127,6 +165,7 @@ export default function displayPortfolio(portfolio) {
     buttonContainer.appendChild(editProjectButton);
     buttonContainer.appendChild(removeProjectButton);
     buttonContainer.appendChild(completeProjectButton);
+    buttonContainer.appendChild(saveProjectButton);
 
     generateProjects(portfolio);
     newPort.appendChild(buttonContainer);

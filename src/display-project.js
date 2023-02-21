@@ -40,7 +40,7 @@ export default function displayProject(project) {
             const formData = new FormData(event.target);
             const { title, desc, priority, notes, dueDate } = handleTodoFormSubmit(formData);
             const newToDoItem = new Todo(title, desc, dueDate, priority, notes);
-            project.addToDo(newToDoItem);
+            project.todos.push(newToDoItem);
             toDoList.removeChild(form);
             displayProject(project);
         })
