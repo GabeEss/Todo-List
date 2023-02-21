@@ -8,6 +8,7 @@ export function createForm() {
     const titleInput = document.createElement('input');
     titleInput.setAttribute('type', 'text');
     titleInput.setAttribute('name', 'title');
+    titleInput.setAttribute('maxlength', '20');
     form.appendChild(titleInput);
   
     const descriptionLabel = document.createElement('label');
@@ -17,6 +18,7 @@ export function createForm() {
     const descriptionInput = document.createElement('input');
     descriptionInput.setAttribute('type', 'text');
     descriptionInput.setAttribute('name', 'description');
+    descriptionInput.setAttribute('maxlength', '50');
     form.appendChild(descriptionInput);
   
     const submitButton = document.createElement('button');

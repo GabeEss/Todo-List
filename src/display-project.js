@@ -10,7 +10,7 @@ export default function displayProject(project) {
     newProj.innerHTML = ""; // reset the current project container
 
     const title = document.createElement('h2');
-    title.textContent = project.title; // set the title as the text content
+    title.textContent = "Current project: " + project.title; // set the title as the text content
 
     // create a paragraph element to show the description
     const description = document.createElement('p');
@@ -22,25 +22,26 @@ export default function displayProject(project) {
     else
         completed.textContent = "This project has been completed.";
 
+    const toDoListLabel = document.createElement('label');
+    toDoListLabel.setAttribute('id', 'todo-label');
+    toDoListLabel.textContent = "ToDo Items: ";
+
     const toDoList = document.createElement('div');
     toDoList.setAttribute('id', 'todo-container');
-    const toDoListLabel = document.createElement('label');
-    toDoListLabel.textContent = "To-do Items: ";
-    toDoList.appendChild(toDoListLabel);
     
     const newToDoButton = document.createElement('button');
     newToDoButton.textContent = "New ToDo";
     newToDoButton.addEventListener('click', () => { 
         const form = newToDoForm();
         newProj.removeChild(newToDoButton);
-        newProj.appendChild(form);
+        toDoList.appendChild(form);
         form.addEventListener('submit', (event) => {
             event.preventDefault();
             const formData = new FormData(event.target);
             const { title, desc, priority, notes, dueDate } = handleTodoFormSubmit(formData);
             const newToDoItem = new Todo(title, desc, dueDate, priority, notes);
             project.addToDo(newToDoItem);
-            newProj.removeChild(form);
+            toDoList.removeChild(form);
             displayProject(project);
         })
     });
@@ -51,6 +52,7 @@ export default function displayProject(project) {
     newProj.appendChild(title);
     newProj.appendChild(description);
     newProj.appendChild(completed);
+    newProj.appendChild(toDoListLabel);
     newProj.appendChild(toDoList);
     newProj.appendChild(newToDoButton);
     mainContainer.appendChild(newProj); // append the current child to the main container

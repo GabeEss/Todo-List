@@ -1,0 +1,114 @@
+:root{
+    --button-color: rgb(138, 168, 197);
+}
+
+body {
+    background-color: blanchedalmond;
+    margin: 0;
+}
+
+content {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    padding-top: 15px;
+}
+
+#portfolio {
+    display: flex;
+    flex-direction: column;
+}
+
+#portfolio>#portfolio-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#portfolio>#project-list {
+    display: flex;
+    list-style: none;
+    flex-wrap: wrap;
+    font-size: 16pt;
+    padding: 10px;
+    gap: 15px;
+}
+
+#portfolio button {
+    all:unset;
+    font-size: 13pt;
+    padding: 10px;
+    color: var(--button-color);
+}
+
+#project {
+    padding: 10px;
+}
+
+#project button{
+    all: unset;
+    font-size: 13pt;
+    color: var(--button-color);
+}
+
+#project>#todo-container {
+    padding-top: 15px;
+    padding-bottom: 10px;
+    gap: 15px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#new-todo {
+}
+
+#project>#todo-label {
+    font-size: 14pt;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+#project>#todo-container>div{
+    display: flex;
+    flex-direction: column;
+    align-items: space-between;
+    justify-content:space-between;
+    height: 360px;
+    width: 280px;
+    border-radius: 15px;
+    border-left: 10px solid orange;
+    background-color: white;
+    padding: 10px;
+    gap: 10px;
+}
+
+#todo-notes,
+ #todo-description {
+    width: 90%;
+    resize: vertical; /* Allow the user to resize vertically */
+}
+
+#todo-notes {
+    height: 100px;
+}
+
+#todo-description {
+    height: 40px;
+}
+
+input[type=text] {
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+
+#project>#todo-container>form {
+    display: flex;
+    flex-direction: column;
+    align-items:stretch;
+    justify-content:space-evenly;
+}
+#todo-container>form>#form-priority-label {
+    padding-bottom: 5px;
+}

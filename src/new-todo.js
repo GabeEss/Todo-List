@@ -5,7 +5,7 @@ export function newToDoForm() {
     form.setAttribute('id', 'new-todo'); 
 
     const formTitle = document.createElement('textarea');
-    formTitle.setAttribute('maxlength', '50'); // character limit
+    formTitle.setAttribute('maxlength', '20'); // character limit
     formTitle.setAttribute('required', 'true');
     formTitle.setAttribute('name', 'title');
     const titleLabel = document.createElement('label');
@@ -13,14 +13,16 @@ export function newToDoForm() {
     titleLabel.textContent = "Title: ";
 
     const formDesc = document.createElement('textarea');
-    formDesc.setAttribute('maxlength', '100'); // character limit
+    formDesc.setAttribute('maxlength', '50'); // character limit
     formDesc.setAttribute('name', 'description');
+    formDesc.setAttribute('id', 'form-description');
     const descLabel = document.createElement('label');
     descLabel.setAttribute('for', 'descriptionLabel');
     descLabel.textContent = "Description: ";
 
     const priorityLabel = document.createElement('label');
-    priorityLabel.setAttribute('for', 'priorityLabel')
+    priorityLabel.setAttribute('for', 'priorityLabel');
+    priorityLabel.setAttribute('id', 'form-priority-label');
     priorityLabel.textContent = "Priority Level: ";
 
     const priorityLevel1 = document.createElement('input');
@@ -30,6 +32,10 @@ export function newToDoForm() {
     priorityLevel1.setAttribute('checked', true); // default selection
     const priorityLabel1 = document.createElement('label');
     priorityLabel1.textContent = "Low";
+    const priorityContainer1 = document.createElement('div');
+    priorityContainer1.setAttribute('id', 'form-priority-container1');
+    priorityContainer1.appendChild(priorityLabel1);
+    priorityContainer1.appendChild(priorityLevel1);
 
     const priorityLevel2 = document.createElement('input');
     priorityLevel2.setAttribute('type', 'radio');
@@ -37,6 +43,10 @@ export function newToDoForm() {
     priorityLevel2.setAttribute('value', '2 (medium)');
     const priorityLabel2 = document.createElement('label');
     priorityLabel2.textContent = "Medium";
+    const priorityContainer2 = document.createElement('div');
+    priorityContainer2.setAttribute('id', 'form-priority-container2');
+    priorityContainer2.appendChild(priorityLabel2);
+    priorityContainer2.appendChild(priorityLevel2);
 
     const priorityLevel3 = document.createElement('input');
     priorityLevel3.setAttribute('type', 'radio');
@@ -44,10 +54,15 @@ export function newToDoForm() {
     priorityLevel3.setAttribute('value', '3 (high)');
     const priorityLabel3 = document.createElement('label');
     priorityLabel3.textContent = "High";
+    const priorityContainer3 = document.createElement('div');
+    priorityContainer3.setAttribute('id', 'form-priority-container3');
+    priorityContainer3.appendChild(priorityLabel3);
+    priorityContainer3.appendChild(priorityLevel3);
 
     const formNotes = document.createElement('textarea');
-    formNotes.setAttribute('maxlength', '250'); // character limit
+    formNotes.setAttribute('maxlength', '200'); // character limit
     formNotes.setAttribute('name', 'notes');
+    formNotes.setAttribute('id', 'form-notes');
     const notesLabel = document.createElement('label');
     notesLabel.setAttribute('for', 'notesLabel');
     notesLabel.textContent = "Notes: ";
@@ -77,12 +92,9 @@ export function newToDoForm() {
     form.appendChild(formDesc);
     form.appendChild(document.createElement('br'));
     form.appendChild(priorityLabel);
-    form.appendChild(priorityLevel1);
-    form.appendChild(priorityLabel1);
-    form.appendChild(priorityLevel2);
-    form.appendChild(priorityLabel2);
-    form.appendChild(priorityLevel3);
-    form.appendChild(priorityLabel3);
+    form.appendChild(priorityContainer1);
+    form.appendChild(priorityContainer2);
+    form.appendChild(priorityContainer3);
     form.appendChild(document.createElement('br'));
     form.appendChild(notesLabel);
     form.appendChild(formNotes);

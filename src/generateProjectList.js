@@ -17,6 +17,6 @@ export default function generateProjects(portfolio) {
         }
     }
 
-    const port = document.getElementById('portfolio');
-    port.appendChild(projectList);
+    // const port = document.getElementById('portfolio');
+    // port.appendChild(projectList);
 }

@@ -9,12 +9,14 @@ import { setIndex, getCurrentIndex } from "./current-project-index";
 // to delete the current project from the portfolio.
 
 export default function displayPortfolio(portfolio) {
-    const mainContainer = document.getElementById('content'); // get main container
     const newPort = document.getElementById('portfolio'); // get portfolio container
 
     const title = document.createElement('h1');
+    const titleContainer = document.createElement('div');
+    titleContainer.setAttribute('id', 'portfolio-title');
     title.textContent = "My Portfolio"; // set the title as the text content
-    newPort.appendChild(title);
+    titleContainer.appendChild(title);
+    newPort.appendChild(titleContainer);
 
     const projectList = document.createElement('ul');
     projectList.setAttribute('id', 'project-list');
@@ -25,26 +27,26 @@ export default function displayPortfolio(portfolio) {
     newProjButton.textContent = "New Project";
     newProjButton.addEventListener('click', () => {
         const form = createForm();
-        newPort.removeChild(newProjButton); // remove buttons until submit event has concluded
-        newPort.removeChild(editProjectButton);
-        newPort.removeChild(removeProjectButton);
-        newPort.removeChild(completeProjectButton);
+        buttonContainer.removeChild(newProjButton); // remove buttons until submit event has concluded
+        buttonContainer.removeChild(editProjectButton);
+        buttonContainer.removeChild(removeProjectButton);
+        buttonContainer.removeChild(completeProjectButton);
         form.addEventListener('submit', (event) => {
             event.preventDefault();
             const formData = new FormData(event.target);
             const { title, description, array } = handleFormSubmit(formData);
             const project = new Project(title, description, array);
             portfolio.addProject(project); // add new project to portfolio array
-            newPort.removeChild(form); // remove form upon submission
+            buttonContainer.removeChild(form); // remove form upon submission
             displayProject(project); // display the new project
             setIndex(portfolio.projects.length - 1); // don't sort the projects inside the object itself
             generateProjects(portfolio); // generate project list again
-            newPort.appendChild(newProjButton); // re-add buttons
-            newPort.appendChild(editProjectButton);
-            newPort.appendChild(removeProjectButton);
-            newPort.appendChild(completeProjectButton);
+            buttonContainer.appendChild(newProjButton); // re-add buttons
+            buttonContainer.appendChild(editProjectButton);
+            buttonContainer.appendChild(removeProjectButton);
+            buttonContainer.appendChild(completeProjectButton);
         });
-        newPort.appendChild(form);
+        buttonContainer.appendChild(form);
     });
 
     const editProjectButton = document.createElement('button');
@@ -52,10 +54,10 @@ export default function displayPortfolio(portfolio) {
     editProjectButton.textContent = "Edit Project";
     editProjectButton.addEventListener('click', () => {
         const form = createForm();
-        newPort.removeChild(newProjButton);
-        newPort.removeChild(editProjectButton);
-        newPort.removeChild(removeProjectButton);
-        newPort.removeChild(completeProjectButton);
+        buttonContainer.removeChild(newProjButton);
+        buttonContainer.removeChild(editProjectButton);
+        buttonContainer.removeChild(removeProjectButton);
+        buttonContainer.removeChild(completeProjectButton);
         form.addEventListener('submit', (event) => {
             event.preventDefault();
             const formData = new FormData(event.target);
@@ -63,15 +65,15 @@ export default function displayPortfolio(portfolio) {
             let currProjIndex = getCurrentIndex();
             portfolio.projects[currProjIndex].title = title; // update the project in the array
             portfolio.projects[currProjIndex].description = description;
-            newPort.removeChild(form);
+            buttonContainer.removeChild(form);
             generateProjects(portfolio); // generate project list again
-            newPort.appendChild(newProjButton); // re-add buttons
-            newPort.appendChild(editProjectButton);
-            newPort.appendChild(removeProjectButton);
-            newPort.appendChild(completeProjectButton);
+            buttonContainer.appendChild(newProjButton); // re-add buttons
+            buttonContainer.appendChild(editProjectButton);
+            buttonContainer.appendChild(removeProjectButton);
+            buttonContainer.appendChild(completeProjectButton);
             displayProject(portfolio.projects[currProjIndex]); // re-display the current project
         });
-        newPort.appendChild(form);
+        buttonContainer.appendChild(form);
     });
 
     const removeProjectButton = document.createElement('button');
@@ -80,17 +82,17 @@ export default function displayPortfolio(portfolio) {
     removeProjectButton.addEventListener('click', () => {
         // Test to see if there is more than one project left. If there is only one project, nothing will happen.
         if(portfolio.projects.length > 1) {
-            newPort.removeChild(newProjButton);
-            newPort.removeChild(editProjectButton);
-            newPort.removeChild(removeProjectButton);
-            newPort.removeChild(completeProjectButton);
+            buttonContainer.removeChild(newProjButton);
+            buttonContainer.removeChild(editProjectButton);
+            buttonContainer.removeChild(removeProjectButton);
+            buttonContainer.removeChild(completeProjectButton);
             let currProjIndex = getCurrentIndex();
             portfolio.removeProject(currProjIndex);
             generateProjects(portfolio); // generate project list again
-            newPort.appendChild(newProjButton); // re-add buttons
-            newPort.appendChild(editProjectButton);
-            newPort.appendChild(removeProjectButton);
-            newPort.appendChild(completeProjectButton);
+            buttonContainer.appendChild(newProjButton); // re-add buttons
+            buttonContainer.appendChild(editProjectButton);
+            buttonContainer.appendChild(removeProjectButton);
+            buttonContainer.appendChild(completeProjectButton);
             setIndex(0); // reset index value
             currProjIndex = getCurrentIndex();
             displayProject(portfolio.projects[currProjIndex]); // re-display the first project on the list
@@ -101,27 +103,31 @@ export default function displayPortfolio(portfolio) {
     completeProjectButton.id = "complete-project-button";
     completeProjectButton.textContent = "Change Completion Status";
     completeProjectButton.addEventListener('click', () => {
-            newPort.removeChild(newProjButton);
-            newPort.removeChild(editProjectButton);
-            newPort.removeChild(removeProjectButton);
-            newPort.removeChild(completeProjectButton);
+            buttonContainer.removeChild(newProjButton);
+            buttonContainer.removeChild(editProjectButton);
+            buttonContainer.removeChild(removeProjectButton);
+            buttonContainer.removeChild(completeProjectButton);
             let currProjIndex = getCurrentIndex();
             if(portfolio.projects[currProjIndex].completed === true)
                 portfolio.projects[currProjIndex].completed = false;
             else
                 portfolio.projects[currProjIndex].completed = true;
 
-            newPort.appendChild(newProjButton); // re-add buttons
-            newPort.appendChild(editProjectButton);
-            newPort.appendChild(removeProjectButton);
-            newPort.appendChild(completeProjectButton);
+            buttonContainer.appendChild(newProjButton); // re-add buttons
+            buttonContainer.appendChild(editProjectButton);
+            buttonContainer.appendChild(removeProjectButton);
+            buttonContainer.appendChild(completeProjectButton);
 
             displayProject(portfolio.projects[currProjIndex]);
     });
     
+    const buttonContainer = document.createElement('div');
+    buttonContainer.setAttribute('id', 'portfolio-buttons');
+    buttonContainer.appendChild(newProjButton);
+    buttonContainer.appendChild(editProjectButton);
+    buttonContainer.appendChild(removeProjectButton);
+    buttonContainer.appendChild(completeProjectButton);
+
     generateProjects(portfolio);
-    newPort.appendChild(newProjButton);
-    newPort.appendChild(editProjectButton);
-    newPort.appendChild(removeProjectButton);
-    newPort.appendChild(completeProjectButton);
+    newPort.appendChild(buttonContainer);
 }

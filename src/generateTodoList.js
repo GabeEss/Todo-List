@@ -23,8 +23,8 @@ export default function generateToDo(project) {
             const toDoDescriptionContainer = document.createElement('div');
             const toDoDescriptionLabel = document.createElement('label');
             toDoDescriptionLabel.textContent = "Description: ";
-            const toDoDescription = document.createElement('input');
-            toDoDescription.setAttribute('type', 'text');
+            const toDoDescription = document.createElement('textarea');
+            toDoDescription.setAttribute('id', 'todo-description');
             toDoDescription.value = project.todos[i].description;
             toDoDescriptionContainer.appendChild(toDoDescriptionLabel);
             toDoDescriptionContainer.appendChild(toDoDescription);
@@ -43,8 +43,8 @@ export default function generateToDo(project) {
             const toDoNotesContainer = document.createElement('div');
             const toDoNotesLabel = document.createElement('label');
             toDoNotesLabel.textContent = "Notes: ";
-            const toDoNotes = document.createElement('input');
-            toDoNotes.setAttribute('type', 'text');
+            const toDoNotes = document.createElement('textarea');
+            toDoNotes.setAttribute('id', 'todo-notes');
             toDoNotes.value = project.todos[i].notes;
             toDoNotesContainer.appendChild(toDoNotesLabel);
             toDoNotesContainer.appendChild(toDoNotes);
@@ -68,6 +68,9 @@ export default function generateToDo(project) {
                 const input = document.createElement('input');
                 input.type = 'text';
                 input.value = toDoTitle.value;
+
+                input.setAttribute('maxlength', '20');
+                input.setAttribute('id', 'todo-title');
 
                 toDoTitleContainer.replaceChild(input, toDoTitle);
             
@@ -121,30 +124,34 @@ export default function generateToDo(project) {
 
             // Description Event
             toDoDescription.addEventListener('click', () => {
-                const input = document.createElement('input');
-                input.type = 'text';
-                input.value = toDoDescription.textContent;
-            
-                toDoDescriptionContainer.replaceChild(input, toDoDescription);
-            
-                input.addEventListener('blur', () => {
-                    toDoDescription.textContent = input.value;
-                    project.todos[i].editDescription(input.value);
-                    displayProject(project);
+                const textarea = document.createElement('textarea');
+                textarea.value = toDoDescription.value;
+                textarea.setAttribute('maxlength', '50');
+                textarea.setAttribute('id', 'todo-description');
+                textarea.setAttribute('rows', '4'); // Set the number of visible rows
+              
+                toDoDescriptionContainer.replaceChild(textarea, toDoDescription);
+              
+                textarea.addEventListener('blur', () => {
+                  toDoDescription.value = textarea.value;
+                  project.todos[i].editDescription(textarea.value);
+                  displayProject(project);
                 });
-            });
+              });
 
             // Notes Event
             toDoNotes.addEventListener('click', () => {
-                const input = document.createElement('input');
-                input.type = 'text';
-                input.value = toDoNotes.textContent;
+                const textarea = document.createElement('textarea'); // textarea to enable text wrapping
+                textarea.value = toDoNotes.value;
+                textarea.setAttribute('maxlength', 200);
+                textarea.setAttribute('id', 'todo-notes');
+                textarea.setAttribute('rows', '6');
+
+                toDoNotesContainer.replaceChild(textarea, toDoNotes);
             
-                toDoNotesContainer.replaceChild(input, toDoNotes);
-            
-                input.addEventListener('blur', () => {
-                    toDoTitle.textContent = input.value;
-                    project.todos[i].notes = input.value;
+                textarea.addEventListener('blur', () => {
+                    toDoNotes.value = textarea.value;
+                    project.todos[i].notes = textarea.value;
                     displayProject(project);
                 });
             });
